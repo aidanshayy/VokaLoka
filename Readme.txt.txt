@@ -1,0 +1,1 @@
+This is a base readme document that will be the base for the website interface of vocaloka 
