@@ -1,133 +1,125 @@
-📚 VokaLoka
+# 📚 VokaLoka
 This repository contains the source code and resources for VokaLoka — a full-scale SRS-powered language learning app that combines the effectiveness of Anki with the intuitive, engaging UX of Duolingo.
 
-🚀 Brainstorm
+# 🚀 Brainstorm
 VokaLoka aims to provide a personalized, efficient, and fun language learning journey by leveraging:
 
-Spaced Repetition (SRS)
+-Spaced Repetition (SRS)
 
-Smart word ranking & color coding
+-Smart word ranking & color coding
 
-Customizable progress tracking
+-Customizable progress tracking
 
-Intuitive UI/UX inspired by modern learning apps
+-Intuitive UI/UX inspired by modern learning apps
 
-🎨 Front-End
+# 🎨 Front-End
 Built with:
 
-TypeScript
+-TypeScript
 
-HTML
+-HTML
 
-CSS (potentially with animations & a branded logo later)
+-CSS (potentially with animations & a branded logo later)
 
-✅ Key Features
-Minimalistic Landing Page
+# ✅ Key Features
+-Minimalistic Landing Page
+-Clean colors, bold text, simple layout
+-A prominent “Start Here” button to onboard the user quickly
+-Onboarding Page
+-A short questionnaire to personalize each learner’s experience
+-Collects user goals, study habits, preferred topics, and more
+-Dashboard Page (Main Hub)
+-Displays essential stats:
+-User’s CEFR Level (A1–C1)
 
-Clean colors, bold text, simple layout
+-Words Learned
 
-A prominent “Start Here” button to onboard the user quickly
+-Total Time Studied Today
 
-Onboarding Page
+-Daily progress visualized via progress bars
 
-A short questionnaire to personalize each learner’s experience
+-Users can configure which stats appear by default
 
-Collects user goals, study habits, preferred topics, and more
+-Option to view More Stats:
 
-Dashboard Page (Main Hub)
+-Forgetting curve
 
-Displays essential stats:
+-Retention rate
 
-User’s CEFR Level (A1–C1)
+-Future reviews
 
-Words Learned
+-Study progress calendar
 
-Total Time Studied Today
+-Review Session Section
 
-Daily progress visualized via progress bars
+-Start daily reviews (cloze deletions, active recall, multiple choice, etc.)
 
-Users can configure which stats appear by default
+-Personalized based on user input & backend algorithms
 
-Option to view More Stats:
+-Learning Section
 
-Forgetting curve
+-Introduces new words/concepts
 
-Retention rate
+-Uses rich context: images, example sentences, comprehension checks
 
-Future reviews
+-Once learned, new words transition into the review cycle
 
-Study progress calendar
+-Word Ranking System
 
-Review Session Section
+-White: Never seen
 
-Start daily reviews (cloze deletions, active recall, multiple choice, etc.)
+-Red: Newly learned
 
-Personalized based on user input & backend algorithms
+-Yellow: Improving familiarity
 
-Learning Section
+-Green: Mastered
 
-Introduces new words/concepts
+-Users can manually adjust a word’s rank to keep practice efficient
 
-Uses rich context: images, example sentences, comprehension checks
+-Ensures focus stays on weak points instead of wasting reviews on strong words
 
-Once learned, new words transition into the review cycle
+-Words Page
 
-Word Ranking System
+-A full list of all words the user has seen or will see
 
-White: Never seen
+## Users can:
 
-Red: Newly learned
+-View words + definitions
 
-Yellow: Improving familiarity
+-Add new words (instantly used by backend algorithms)
 
-Green: Mastered
+-Remove unwanted words
 
-Users can manually adjust a word’s rank to keep practice efficient
+-Sort by rank (Green → Red)
 
-Ensures focus stays on weak points instead of wasting reviews on strong words
+# 💡 Future Vision
+-Fully functional backend API to:
 
-Words Page
+-Save onboarding data
 
-A full list of all words the user has seen or will see
+-Serve personalized flashcards & learning modules
 
-Users can:
+-Track study sessions & streaks
 
-View words + definitions
+-Gamification features:
 
-Add new words (instantly used by backend algorithms)
+-XP points
 
-Remove unwanted words
+-Badges
 
-Sort by rank (Green → Red)
+-Streak rewards
 
-💡 Future Vision
-Fully functional backend API to:
+-Level-up animations
 
-Save onboarding data
+## Mobile support & offline mode.
 
-Serve personalized flashcards & learning modules
+## 📂 Status
+## ✅ Landing Page — Drafted
+## ✅ Onboarding Page — Functional form, collects answers
+## ✅ Dashboard Page — Core layout in place, customized stats & sections
+## 🟡 Backend API — To be integrated
 
-Track study sessions & streaks
-
-Gamification features:
-
-XP points
-
-Badges
-
-Streak rewards
-
-Level-up animations
-
-Mobile support & offline mode.
-
-📂 Status
-✅ Landing Page — Drafted
-✅ Onboarding Page — Functional form, collects answers
-✅ Dashboard Page — Core layout in place, customized stats & sections
-🟡 Backend API — To be integrated
-
-⚡️ How to Contribute
+# ⚡️ How to Contribute
 If you have ideas, suggestions, or want to help build this vision:
 
 Fork this repo
