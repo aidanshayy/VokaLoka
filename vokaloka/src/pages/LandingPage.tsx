@@ -1,30 +1,12 @@
 import { Link } from 'react-router-dom';
-import { motion, type Transition } from 'framer-motion';
 
-export default function LandingPage() {
-  // Floating bubble animation config
-  // framer-motion typing is strict and does not expose the legacy `yoyo`
-  // property used for infinite back-and-forth animations. Cast the object to a
-  // `Transition` to satisfy TypeScript while keeping the behavior.
-  const floatTransition = {
-    y: {
-      duration: 10,
-      yoyo: Infinity,
-      ease: 'easeInOut',
-    },
-    x: {
-      duration: 12,
-      yoyo: Infinity,
-      ease: 'easeInOut',
-    },
-  } as unknown as Transition;
-
+export default function HomePage() {
   return (
     <div style={styles.container}>
       {/* Subtle gradient background */}
       <div style={styles.gradient}></div>
 
-      {/* NEW: Management Tab */}
+      {/* Management Tab */}
       <div style={styles.managementTab}>
         <span style={styles.managementTitle}>Management</span>
         <div style={styles.managementButtons}>
@@ -39,39 +21,6 @@ export default function LandingPage() {
           </Link>
         </div>
       </div>
-
-      {/* Floating decorative bubbles */}
-      <motion.div
-        style={{ ...styles.bubble, top: '10%', left: '5%' }}
-        animate={{ y: [0, 40, 0], x: [0, 30, 0] }}
-        transition={floatTransition}
-      >
-        💭
-      </motion.div>
-
-      <motion.div
-        style={{ ...styles.bubble, top: '20%', right: '5%' }}
-        animate={{ y: [0, -40, 0], x: [0, -30, 0] }}
-        transition={floatTransition}
-      >
-        🗨️
-      </motion.div>
-
-      <motion.div
-        style={{ ...styles.bubble, bottom: '15%', left: '8%' }}
-        animate={{ y: [0, -30, 0], x: [0, 40, 0] }}
-        transition={floatTransition}
-      >
-        💡
-      </motion.div>
-
-      <motion.div
-        style={{ ...styles.bubble, bottom: '12%', right: '8%' }}
-        animate={{ y: [0, 30, 0], x: [0, -40, 0] }}
-        transition={floatTransition}
-      >
-        ✏️
-      </motion.div>
 
       {/* Main hero content */}
       <div style={styles.hero}>
@@ -142,20 +91,6 @@ const styles = {
     cursor: 'pointer',
     transition: 'transform 0.3s ease',
   },
-  bubble: {
-    position: 'absolute' as const,
-    backgroundColor: '#fff',
-    width: '40px',
-    height: '40px',
-    borderRadius: '50%',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontSize: '1.2rem',
-    boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
-    zIndex: 1,
-    pointerEvents: 'none' as const,
-  },
   managementTab: {
     position: 'absolute' as const,
     top: '20px',
@@ -190,4 +125,3 @@ const styles = {
     transition: 'background 0.3s ease',
   },
 };
-
