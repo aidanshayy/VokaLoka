@@ -2,34 +2,19 @@ import { Link } from 'react-router-dom';
 
 export default function HomePage() {
   return (
-    <div style={styles.container}>
+   <div style={styles.container}>
       {/* Subtle gradient background */}
       <div style={styles.gradient}></div>
 
-      {/* Management Tab */}
-      <div style={styles.managementTab}>
-        <span style={styles.managementTitle}>Management</span>
-        <div style={styles.managementButtons}>
-          <Link to="/dashboard">
-            <button style={styles.managementButton}>Dashboard</button>
-          </Link>
-          <Link to="/users">
-            <button style={styles.managementButton}>Users</button>
-          </Link>
-          <Link to="/settings">
-            <button style={styles.managementButton}>Settings</button>
-          </Link>
-        </div>
-      </div>
 
       {/* Main hero content */}
       <div style={styles.hero}>
-        <h1 style={styles.title}>Vokaloka</h1>
+        <h1 style={styles.title}>Welcome to VokaLoka</h1>
         <p style={styles.subtitle}>
           Personalized, AI-powered language learning. Smarter flashcards. Adaptive practice. Master a language on your terms.
         </p>
         <Link to="/onboarding">
-          <button style={styles.button}>Get Started Free</button>
+          <button style={styles.button}>Start Here</button>
         </Link>
       </div>
     </div>
@@ -42,7 +27,7 @@ const styles = {
     width: '100vw',
     height: '100vh',
     background:
-      'linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #1e3c72 100%)',
+      'linear-gradient(135deg,rgb(186, 200, 221) 0%, #2a5298 50%, #1e3c72 100%)',
     overflow: 'hidden',
     display: 'flex',
     justifyContent: 'center',
@@ -69,7 +54,7 @@ const styles = {
     padding: '0 20px',
   },
   title: {
-    fontSize: '4rem',
+    fontSize: 'rem',
     marginBottom: '20px',
     fontWeight: 800,
     letterSpacing: '1px',
@@ -91,37 +76,6 @@ const styles = {
     cursor: 'pointer',
     transition: 'transform 0.3s ease',
   },
-  managementTab: {
-    position: 'absolute' as const,
-    top: '20px',
-    right: '20px',
-    backgroundColor: 'rgba(255,255,255,0.9)',
-    padding: '10px',
-    borderRadius: '8px',
-    boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
-    zIndex: 3,
-  },
-  managementTitle: {
-    fontWeight: 700,
-    fontSize: '1rem',
-    marginBottom: '8px',
-    display: 'block',
-    color: '#2a5298',
-    textAlign: 'center' as const,
-  },
-  managementButtons: {
-    display: 'flex',
-    flexDirection: 'column' as const,
-    gap: '8px',
-  },
-  managementButton: {
-    fontSize: '0.9rem',
-    padding: '8px 16px',
-    borderRadius: '4px',
-    border: 'none',
-    backgroundColor: '#2a5298',
-    color: '#fff',
-    cursor: 'pointer',
-    transition: 'background 0.3s ease',
-  },
+  
+  
 };

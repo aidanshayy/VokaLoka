@@ -3,11 +3,24 @@ import { useNavigate } from 'react-router-dom';
 
 export default function OnboardingPage() {
   const navigate = useNavigate();
-  const [goal, setGoal] = useState('');
+  const [answers, setAnswers] = useState({
+    goal: '',
+    timeframe: '',
+    studyTime: '',
+    topics: '',
+    preferredStyle: '',
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setAnswers({
+      ...answers,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('User goal:', goal);
+    console.log('Onboarding answers:', answers);
     navigate('/dashboard');
   };
 
@@ -15,24 +28,77 @@ export default function OnboardingPage() {
     <div style={styles.container}>
       <h1 style={styles.title}>🎓 Let's Personalize Vokaloka for You</h1>
       <p style={styles.subtitle}>
-        Tell us your goals so Vokaloka can build a custom flashcard deck and grammar plan just for you.
+        Answer a few quick questions so we can tailor your language learning journey.
       </p>
 
       <form onSubmit={handleSubmit} style={styles.form}>
         <label style={styles.label}>
-          Your main goal:
+          1️⃣ What's your main language goal?
           <input
+            name="goal"
             type="text"
-            value={goal}
-            onChange={(e) => setGoal(e.target.value)}
-            placeholder="e.g., Talk to locals in Brazil, pass an exam..."
+            value={answers.goal}
+            onChange={handleChange}
+            placeholder="e.g., Speak with locals in Brazil"
+            style={styles.input}
+            required
+          />
+        </label>
+
+        <label style={styles.label}>
+          2️⃣ When do you want to reach this goal?
+          <input
+            name="timeframe"
+            type="text"
+            value={answers.timeframe}
+            onChange={handleChange}
+            placeholder="e.g., 3 months, 1 year"
+            style={styles.input}
+            required
+          />
+        </label>
+
+        <label style={styles.label}>
+          3️⃣ How much time per day can you study?
+          <input
+            name="studyTime"
+            type="text"
+            value={answers.studyTime}
+            onChange={handleChange}
+            placeholder="e.g., 15 min, 1 hour"
+            style={styles.input}
+            required
+          />
+        </label>
+
+        <label style={styles.label}>
+          4️⃣ What topics or situations matter most?
+          <input
+            name="topics"
+            type="text"
+            value={answers.topics}
+            onChange={handleChange}
+            placeholder="e.g., Travel, work, daily conversation"
+            style={styles.input}
+            required
+          />
+        </label>
+
+        <label style={styles.label}>
+          5️⃣ What's your preferred learning style?
+          <input
+            name="preferredStyle"
+            type="text"
+            value={answers.preferredStyle}
+            onChange={handleChange}
+            placeholder="e.g., Flashcards, videos, quizzes"
             style={styles.input}
             required
           />
         </label>
 
         <button type="submit" style={styles.button}>
-          Continue
+          🚀 Create My Plan
         </button>
       </form>
     </div>
@@ -46,6 +112,7 @@ const styles = {
     fontFamily: 'Helvetica, Arial, sans-serif',
     background: 'linear-gradient(135deg, #e6f0ff, #f9fbff)',
     minHeight: '100vh',
+    
   },
   title: {
     fontSize: '2.5rem',
