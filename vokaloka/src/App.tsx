@@ -9,7 +9,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/onboarding" element={<OnboardingPage />} /> {/* ✅ match path to Link below */}
+        <Route path="/onboarding" element={<OnboardingPage />} /> {/* matches Link in LandingPage */}
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/review" element={<FlashcardPage />} />
       </Routes>
