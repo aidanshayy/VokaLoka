@@ -1,8 +1,11 @@
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, type Transition } from 'framer-motion';
 
 export default function LandingPage() {
   // Floating bubble animation config
+  // framer-motion typing is strict and does not expose the legacy `yoyo`
+  // property used for infinite back-and-forth animations. Cast the object to a
+  // `Transition` to satisfy TypeScript while keeping the behavior.
   const floatTransition = {
     y: {
       duration: 10,
@@ -14,7 +17,7 @@ export default function LandingPage() {
       yoyo: Infinity,
       ease: 'easeInOut',
     },
-  };
+  } as unknown as Transition;
 
   return (
     <div style={styles.container}>
@@ -89,12 +92,14 @@ const styles = {
     position: 'relative' as const,
     width: '100vw',
     height: '100vh',
-    background: '#e63946',
+    background:
+      'linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #1e3c72 100%)',
     overflow: 'hidden',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    fontFamily: 'Helvetica, Arial, sans-serif',
+    fontFamily: 'Inter, Helvetica, Arial, sans-serif',
+    color: '#fff',
   },
   gradient: {
     position: 'absolute' as const,
@@ -102,8 +107,9 @@ const styles = {
     left: 0,
     width: '100%',
     height: '100%',
-    background: 'radial-gradient(circle at center, #f1f1f1 0%, transparent 70%)',
-    opacity: 0.1,
+    background:
+      'radial-gradient(circle at center, rgba(255,255,255,0.4) 0%, transparent 70%)',
+    opacity: 0.15,
     zIndex: 0,
   },
   hero: {
@@ -116,7 +122,7 @@ const styles = {
   title: {
     fontSize: '4rem',
     marginBottom: '20px',
-    fontWeight: 700,
+    fontWeight: 800,
     letterSpacing: '1px',
   },
   subtitle: {
@@ -130,8 +136,8 @@ const styles = {
     padding: '16px 32px',
     borderRadius: '50px',
     border: 'none',
-    backgroundColor: '#fff',
-    color: '#e63946',
+    backgroundColor: '#ffc107',
+    color: '#1e3c72',
     fontWeight: 600,
     cursor: 'pointer',
     transition: 'transform 0.3s ease',
@@ -148,13 +154,13 @@ const styles = {
     fontSize: '1.2rem',
     boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
     zIndex: 1,
-    pointerEvents: 'none',
+    pointerEvents: 'none' as const,
   },
   managementTab: {
     position: 'absolute' as const,
     top: '20px',
     right: '20px',
-    backgroundColor: '#fff',
+    backgroundColor: 'rgba(255,255,255,0.9)',
     padding: '10px',
     borderRadius: '8px',
     boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
@@ -165,7 +171,7 @@ const styles = {
     fontSize: '1rem',
     marginBottom: '8px',
     display: 'block',
-    color: '#e63946',
+    color: '#2a5298',
     textAlign: 'center' as const,
   },
   managementButtons: {
@@ -178,7 +184,7 @@ const styles = {
     padding: '8px 16px',
     borderRadius: '4px',
     border: 'none',
-    backgroundColor: '#e63946',
+    backgroundColor: '#2a5298',
     color: '#fff',
     cursor: 'pointer',
     transition: 'background 0.3s ease',
