@@ -21,6 +21,22 @@ export default function LandingPage() {
       {/* Subtle gradient background */}
       <div style={styles.gradient}></div>
 
+      {/* NEW: Management Tab */}
+      <div style={styles.managementTab}>
+        <span style={styles.managementTitle}>Management</span>
+        <div style={styles.managementButtons}>
+          <Link to="/dashboard">
+            <button style={styles.managementButton}>Dashboard</button>
+          </Link>
+          <Link to="/users">
+            <button style={styles.managementButton}>Users</button>
+          </Link>
+          <Link to="/settings">
+            <button style={styles.managementButton}>Settings</button>
+          </Link>
+        </div>
+      </div>
+
       {/* Floating decorative bubbles */}
       <motion.div
         style={{ ...styles.bubble, top: '10%', left: '5%' }}
@@ -133,6 +149,39 @@ const styles = {
     boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
     zIndex: 1,
     pointerEvents: 'none',
+  },
+  managementTab: {
+    position: 'absolute' as const,
+    top: '20px',
+    right: '20px',
+    backgroundColor: '#fff',
+    padding: '10px',
+    borderRadius: '8px',
+    boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
+    zIndex: 3,
+  },
+  managementTitle: {
+    fontWeight: 700,
+    fontSize: '1rem',
+    marginBottom: '8px',
+    display: 'block',
+    color: '#e63946',
+    textAlign: 'center' as const,
+  },
+  managementButtons: {
+    display: 'flex',
+    flexDirection: 'column' as const,
+    gap: '8px',
+  },
+  managementButton: {
+    fontSize: '0.9rem',
+    padding: '8px 16px',
+    borderRadius: '4px',
+    border: 'none',
+    backgroundColor: '#e63946',
+    color: '#fff',
+    cursor: 'pointer',
+    transition: 'background 0.3s ease',
   },
 };
 
