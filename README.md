@@ -22,14 +22,23 @@ Built with:
 -CSS (potentially with animations & a branded logo later)
 
 # ✅ Key Features
+
 -Minimalistic Landing Page
+
 -Clean colors, bold text, simple layout
+
 -A prominent “Start Here” button to onboard the user quickly
+
 -Onboarding Page
+
 -A short questionnaire to personalize each learner’s experience
+
 -Collects user goals, study habits, preferred topics, and more
+
 -Dashboard Page (Main Hub)
--Displays essential stats:
+
+## Displays essential stats:
+
 -User’s CEFR Level (A1–C1)
 
 -Words Learned
