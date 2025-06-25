@@ -26,8 +26,22 @@ export default function DashboardPage() {
             <h2 style={styles.statNumber}>45 min</h2>
             <p style={styles.statLabel}>Time Studied Today</p>
           </div>
+          <div style={styles.statCard}>
+            <h2 style={styles.statNumber}>🔥 5 Days</h2>
+            <p style={styles.statLabel}>Current Streak</p>
+          </div>
         </section>
 
+        {/* 📘 Start Learning Section */}
+        <section style={styles.newLearning}>
+          <h2>📘 Start Learning</h2>
+          <p>Discover 5 new words today — let’s expand your vocabulary!</p>
+          <button style={styles.button} onClick={() => navigate('/learn')}>
+            Learn New Words
+          </button>
+        </section>
+
+        {/* 🗂️ Review Section */}
         <section style={styles.nextReview}>
           <h2>🗂️ Next Review Session</h2>
           <p>Stay sharp — consistency fuels fluency!</p>
@@ -36,6 +50,7 @@ export default function DashboardPage() {
           </button>
         </section>
 
+        {/* 📚 Daily Tip Section */}
         <section style={styles.extraSection}>
           <h2>📚 Daily Tip</h2>
           <p>
@@ -104,6 +119,14 @@ const styles = {
     fontSize: '1rem',
     margin: '8px 0 0',
     color: '#555',
+  },
+  newLearning: {
+    background: '#e6f7ff',
+    padding: '60px',
+    borderRadius: '14px',
+    marginBottom: '40px',
+    textAlign: 'center' as const,
+    boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
   },
   nextReview: {
     background: '#fff1e6',
