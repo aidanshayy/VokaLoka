@@ -31,7 +31,7 @@ export default function DashboardPage() {
         <section style={styles.nextReview}>
           <h2>🗂️ Next Review Session</h2>
           <p>Stay sharp — consistency fuels fluency!</p>
-          <button style={styles.button} onClick={() => navigate('/FlashcardPage')}>
+          <button style={styles.button} onClick={() => navigate('/review')}>
             Start Reviewing
           </button>
         </section>
