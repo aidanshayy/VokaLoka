@@ -1,51 +1,45 @@
+import { useNavigate } from 'react-router-dom';
+
 export default function DashboardPage() {
+  const navigate = useNavigate();
+
   return (
     <div style={styles.wrapper}>
       <div style={styles.container}>
         <header style={styles.header}>
           <h1 style={styles.title}>👋 Welcome back to Vokaloka!</h1>
           <p style={styles.subtitle}>
-            Here’s a snapshot of your journey — keep up the great work!
+            Here’s your progress snapshot — keep crushing it!
           </p>
         </header>
 
         <section style={styles.statsSection}>
           <div style={styles.statCard}>
+            <h2 style={styles.statNumber}>A2</h2>
+            <p style={styles.statLabel}>Current Level</p>
+          </div>
+          <div style={styles.statCard}>
             <h2 style={styles.statNumber}>120</h2>
             <p style={styles.statLabel}>Words Learned</p>
           </div>
           <div style={styles.statCard}>
-            <h2 style={styles.statNumber}>5 Days</h2>
-            <p style={styles.statLabel}>Current Streak</p>
-          </div>
-          <div style={styles.statCard}>
-            <h2 style={styles.statNumber}>12</h2>
-            <p style={styles.statLabel}>Cards Due Today</p>
-          </div>
-          <div style={styles.statCard}>
-            <h2 style={styles.statNumber}>Level 3</h2>
-            <p style={styles.statLabel}>Current Level</p>
-          </div>
-          <div style={styles.statCard}>
-            <h2 style={styles.statNumber}>15 hrs</h2>
-            <p style={styles.statLabel}>Total Time Studied</p>
-          </div>
-          <div style={styles.statCard}>
-            <h2 style={styles.statNumber}>7 Days</h2>
-            <p style={styles.statLabel}>Next Milestone</p>
+            <h2 style={styles.statNumber}>45 min</h2>
+            <p style={styles.statLabel}>Time Studied Today</p>
           </div>
         </section>
 
         <section style={styles.nextReview}>
           <h2>🗂️ Next Review Session</h2>
-          <p>Keep your memory fresh — consistency is key!</p>
-          <button style={styles.button}>Start Reviewing</button>
+          <p>Stay sharp — consistency fuels fluency!</p>
+          <button style={styles.button} onClick={() => navigate('/FlashcardPage')}>
+            Start Reviewing
+          </button>
         </section>
 
         <section style={styles.extraSection}>
           <h2>📚 Daily Tip</h2>
           <p>
-            Learning 5–10 new words per day is more effective than cramming 50 at once. Small steps build big fluency!
+            Mastering a few phrases for everyday situations boosts confidence — focus on real-life usage!
           </p>
         </section>
       </div>
@@ -60,7 +54,7 @@ const styles = {
     margin: 0,
     padding: 0,
     boxSizing: 'border-box' as const,
-    background: 'linear-gradient(135deg, #e6f0ff, #f9fbff)',
+    background: 'linear-gradient(135deg, #a8edea, #fed6e3)',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'flex-start',
@@ -82,7 +76,7 @@ const styles = {
   },
   subtitle: {
     fontSize: '1.2rem',
-    color: '#555',
+    color: '#444',
   },
   statsSection: {
     display: 'flex',
@@ -93,17 +87,18 @@ const styles = {
   },
   statCard: {
     background: '#ffffff',
-    padding: '25px',
-    borderRadius: '12px',
-    width: '160px',
+    padding: '30px',
+    borderRadius: '14px',
+    width: '180px',
     textAlign: 'center' as const,
-    boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)',
+    boxShadow: '0 6px 20px rgba(0, 0, 0, 0.15)',
     flex: '0 1 auto',
+    transition: 'transform 0.2s',
   },
   statNumber: {
-    fontSize: '2rem',
+    fontSize: '2.2rem',
     margin: '0',
-    color: '#0070f3',
+    color: '#ff6b81',
   },
   statLabel: {
     fontSize: '1rem',
@@ -111,30 +106,29 @@ const styles = {
     color: '#555',
   },
   nextReview: {
-    background: '#d0e8ff',
-    padding: '40px',
-    borderRadius: '12px',
+    background: '#fff1e6',
+    padding: '60px',
+    borderRadius: '14px',
     marginBottom: '40px',
     textAlign: 'center' as const,
+    boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
   },
   button: {
     marginTop: '20px',
     fontSize: '1rem',
-    padding: '14px 28px',
-    borderRadius: '8px',
+    padding: '16px 32px',
+    borderRadius: '10px',
     border: 'none',
-    backgroundColor: '#0070f3',
+    backgroundColor: '#ff6b81',
     color: '#fff',
     cursor: 'pointer',
-    transition: 'background 0.3s',
+    transition: 'background 0.3s, transform 0.2s',
   },
   extraSection: {
     background: '#ffffff',
     padding: '30px',
-    borderRadius: '12px',
-    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.05)',
+    borderRadius: '14px',
+    boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)',
     textAlign: 'center' as const,
   },
 };
-
-

@@ -110,7 +110,7 @@ const styles = {
     textAlign: 'center' as const,
     padding: '80px 20px',
     fontFamily: 'Helvetica, Arial, sans-serif',
-    background: 'linear-gradient(135deg, #e6f0ff, #f9fbff)',
+    background: 'linear-gradient(135deg, #e6f0ff,rgb(97, 140, 226))',
     minHeight: '100vh',
     
   },
