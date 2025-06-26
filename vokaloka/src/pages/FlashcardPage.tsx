@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const mockCards = [
@@ -19,8 +19,20 @@ export default function FlashcardPage() {
   const currentCard = mockCards[currentIndex];
 
   const handleCardClick = () => {
-    setShowAnswer(true);
+    setShowAnswer((prev) => !prev);
   };
+
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.code === 'Space') {
+        e.preventDefault();
+        setShowAnswer((prev) => !prev);
+      }
+    };
+
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, []);
 
   const handleReview = () => {
     if (currentIndex < totalCards - 1) {
