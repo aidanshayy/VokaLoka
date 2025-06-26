@@ -3,7 +3,7 @@ import LandingPage from './pages/LandingPage';
 import OnboardingPage from './pages/OnboardingPage';
 import DashboardPage from './pages/DashboardPage';
 import FlashcardPage from './pages/FlashcardPage';
-import NewCardsPage from './pages/NewCardsPage'; // ✅ NEW import
+import NewCardsPage from './pages/Learning/LearnPage'; // ✅ NEW import
 
 function App() {
   return (
