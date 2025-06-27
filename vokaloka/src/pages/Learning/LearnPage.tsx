@@ -15,30 +15,33 @@ const sessionSteps = [
   },
   {
     type: 'expose',
-    word: 'Maçã 🍎',
-    translation: 'Apple',
-    image: '/images/apple.png',
-    note: 'Feminine noun (a maçã)',
-    example: 'Eu gosto de comer uma maçã de manhã.',
-    translationExample: 'I like to eat apples in the morning.',
+    word: {
+      name: 'Maçã 🍎',
+      translation: 'Apple',
+      note: 'Feminine noun: a maçã',
+      targetSentence: 'Eu gosto de comer uma maçã de manhã.',
+      nativeSentence: 'I like to eat apples in the morning.',
+    },
   },
   {
     type: 'expose',
-    word: 'Pão 🍞',
-    translation: 'Bread',
-    image: '/images/bread.png',
-    note: 'Masculine noun (o pão)',
-    example: 'Ela comprou pão fresco na padaria.',
-    translationExample: 'She bought fresh bread at the bakery.',
+    word: {
+      name: 'Pão 🍞',
+      translation: 'Bread',
+      note: 'Masculine noun: o pão',
+      targetSentence: 'Ela comprou pão fresco na padaria.',
+      nativeSentence: 'She bought fresh bread at the bakery.',
+    },
   },
   {
     type: 'expose',
-    word: 'Carro 🚗',
-    translation: 'Car',
-    image: '/images/car.png',
-    note: 'Masculine noun (o carro)',
-    example: 'O carro está estacionado na rua.',
-    translationExample: 'The car is parked on the street.',
+    word: {
+      name: 'Carro 🚗',
+      translation: 'Car',
+      note: 'Masculine noun: o carro',
+      targetSentence: 'O carro está estacionado na rua.',
+      nativeSentence: 'The car is parked on the street.',
+    },
   },
   {
     type: 'cloze',
@@ -73,36 +76,107 @@ export default function LearnPage() {
     }
   };
 
-  switch (current.type) {
-    case 'summary':
-      return <SessionSummary words={current.words} category={current.category} onNext={handleNext} />;
-    case 'expose':
-      return (
-        <ExposeCard
-          word={current.word}
-          translation={current.translation}
-          image={current.image}
-          note={current.note}
-          example={current.example}
-          translationExample={current.translationExample}
-          onNext={handleNext}
-        />
-      );
-    case 'cloze':
-      return (
-        <ClozeCard
-          sentence={current.sentence}
-          translation={current.translation}
-          options={current.options}
-          answer={current.answer}
-          onNext={handleNext}
-        />
-      );
-    case 'match':
-      return <MatchCard pairs={current.pairs} onNext={handleNext} />;
-    case 'summary-end':
-      return <SessionSummaryEnd words={current.reviewWords} onDone={() => navigate('/dashboard')} />;
-    default:
-      return <div>🚧 Unknown step type.</div>;
-  }
+  const progress = ((stepIndex + 1) / sessionSteps.length) * 100;
+
+  return (
+    <div
+      style={{
+        minHeight: '100vh',
+        background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '10px 10px',
+      }}
+    >
+      <div
+        style={{
+          width: '100%',
+          maxWidth: 560,
+          background: '#e0f7fa', // 🔵 updated background color
+          borderRadius: 18,
+          boxShadow: '0 4px 24px rgba(26, 24, 24, 0.1)',
+          padding: '36px 36px 36px 36px',
+          position: 'relative',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
+        {/* Progress Bar */}
+        <div style={{ width: '100%', marginBottom: 24 }}>
+          <div
+            style={{
+              height: 8,
+              background: '#e0e7ef',
+              borderRadius: 4,
+              overflow: 'hidden',
+            }}
+          >
+            <div
+              style={{
+                width: `${progress}%`,
+                height: '100%',
+                background: 'linear-gradient(90deg, #4f8cff 0%, #38e8ff 100%)',
+                transition: 'width 0.3s',
+              }}
+            />
+          </div>
+          <div style={{ fontSize: 13, color: '#7a7a7a', marginTop: 6, textAlign: 'right' }}>
+            Step {stepIndex + 1} of {sessionSteps.length}
+          </div>
+        </div>
+
+        {/* Card Content */}
+        <div style={{ width: '100%' }}>
+          {(() => {
+            switch (current.type) {
+              case 'summary':
+                return (
+                  <SessionSummary
+                    words={current.words}
+                    category={current.category}
+                    onNext={handleNext}
+                  />
+                );
+              case 'expose':
+                return (
+                  <ExposeCard
+                    word={current.word}
+                    onNext={handleNext}
+                  />
+                );
+              case 'cloze':
+                return (
+                  <ClozeCard
+                    sentence={current.sentence}
+                    translation={current.translation}
+                    options={current.options}
+                    answer={current.answer}
+                    onNext={handleNext}
+                  />
+                );
+              case 'match':
+                return (
+                  <MatchCard
+                    pairs={current.pairs}
+                    onNext={handleNext}
+                  />
+                );
+              case 'summary-end':
+                return (
+                  <SessionSummaryEnd
+                    words={current.reviewWords}
+                    onDone={() => navigate('/dashboard')}
+                  />
+                );
+              default:
+                return <div>🚧 Unknown step type.</div>;
+            }
+          })()}
+        </div>
+      </div>
+    </div>
+  );
 }
