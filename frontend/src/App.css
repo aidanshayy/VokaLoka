@@ -1,0 +1,72 @@
+
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #4e5cf2;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+/* Style for the login status indicator */
+.nav-links .status {
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #666;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  background-color: #f5f5fa;
+}
+
+.nav-links li a {
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.nav-links li a:hover {
+  background-color: #f0f1ff;
+}
+
+/* Style for the logout button to resemble a nav link */
+.nav-links li button.logout-button {
+  background: none;
+  border: none;
+  color: #4e5cf2;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.nav-links li button.logout-button:hover {
+  background-color: #f0f1ff;
+}
+
+.content {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+}

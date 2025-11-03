@@ -1,0 +1,60 @@
+
+.review-page {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+/* Reserve vertical space so siblings never jump when card flips/updates */
+.review-card-wrap {
+  min-height: 300px;     /* >= .flashcard height (280px) + a little cushion */
+  display: grid;
+  place-items: center;
+  margin: 12px 0 20px;
+}
+
+.review-loading,
+.review-empty {
+  width: min(680px, 92vw);
+  height: 280px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: #fafafe;
+  color: #6a6a80;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05);
+}
+
+/* Grading buttons under the card — stable spacing, no reflow surprises */
+.review-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  padding: 6px 0 14px;
+}
+
+.btn {
+  min-width: 86px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: transform 120ms ease, box-shadow 120ms ease, opacity 120ms ease;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+  box-shadow: none;
+}
+
+.btn:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.btn.again { background: #ffe6e6; }
+.btn.hard  { background: #fff3d6; }
+.btn.good  { background: #e6f7e6; }
+.btn.easy  { background: #e6f0ff; }

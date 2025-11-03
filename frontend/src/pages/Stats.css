@@ -1,0 +1,166 @@
+.stats {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.stats h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: #4e5cf2;
+}
+
+.stats-summary {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.stat-item {
+  background-color: #fff;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+
+.stat-item h3 {
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+  color: #4e5cf2;
+}
+
+.stat-item p {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.word-list-title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #4e5cf2;
+}
+
+.word-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.word-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.word-text {
+  font-size: 1rem;
+  color: #333;
+}
+
+.word-status {
+  font-size: 0.875rem;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+/* Color coding */
+.word-item.learning {
+  border-left: 6px solid #e74c3c; /* red */
+}
+
+.word-item.developing {
+  border-left: 6px solid #f1c40f; /* yellow */
+}
+
+.word-item.good {
+  border-left: 6px solid #2ecc71; /* green */
+}
+
+/* Styling for deck groups on the stats page */
+.deck-group {
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+.deck-title {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: #4e5cf2;
+}
+
+/* Progress chart styling */
+.progress-container {
+  margin-bottom: 2rem;
+  text-align: left;
+}
+.progress-container h3 {
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+  color: #4e5cf2;
+}
+.progress-bar {
+  display: flex;
+  width: 100%;
+  height: 16px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  margin-bottom: 0.5rem;
+}
+.progress-segment {
+  height: 100%;
+}
+.progress-segment.learning {
+  background-color: #e74c3c;
+}
+.progress-segment.developing {
+  background-color: #f1c40f;
+}
+.progress-segment.good {
+  background-color: #2ecc71;
+}
+.progress-legend {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+  padding: 0;
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: bold;
+}
+.progress-legend li.learning {
+  color: #e74c3c;
+}
+.progress-legend li.developing {
+  color: #f1c40f;
+}
+.progress-legend li.good {
+  color: #2ecc71;
+}
+
+/* Filters styling */
+.filters {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  align-items: center;
+  justify-content: center;
+}
+.filters label {
+  font-size: 0.875rem;
+  color: #333;
+}
+.filters select {
+  margin-left: 0.5rem;
+  padding: 0.25rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}

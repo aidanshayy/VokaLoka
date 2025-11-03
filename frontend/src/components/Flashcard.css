@@ -1,0 +1,64 @@
+/* Fixed-size container to prevent layout shifts around the card */
+.flashcard {
+  width: min(680px, 92vw);
+  height: 280px;                /* keep stable! */
+  margin: 0 auto;
+  perspective: 1000px;
+  will-change: transform;
+}
+
+/* Rotating inner wrapper */
+.flashcard-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 300ms ease;
+  transform: translateZ(0);     /* force GPU path */
+}
+
+.flashcard-inner.is-flipped {
+  transform: rotateY(180deg) translateZ(0);
+}
+
+/* Faces overlap perfectly, never change layout */
+.flashcard-face {
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.08);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  display: grid;
+  grid-template-rows: 1fr auto; /* content + hint */
+  padding: 20px 24px;
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+.flashcard-front { transform: rotateY(0deg) translateZ(0); }
+.flashcard-back  { transform: rotateY(180deg) translateZ(0); }
+
+.flashcard-content {
+  display: grid;
+  place-items: center;
+  text-align: center;
+  word-break: break-word;
+  overflow: hidden;
+  min-height: 0; /* with grid, clamps content without pushing layout */
+  transition: opacity 120ms ease;  /* subtle content swap polish */
+}
+
+.flashcard-hint {
+  color: #8a8aa0;
+  font-size: 13px;
+  text-align: center;
+  user-select: none;
+}
+
+/* Font smoothing for consistency */
+.flashcard, .flashcard * {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

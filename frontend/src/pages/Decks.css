@@ -1,0 +1,47 @@
+
+.decks {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.decks h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  color: #4e5cf2;
+}
+
+.deck-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.deck-item {
+  background-color: #fff;
+  padding: 1rem 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  transition: transform 0.1s ease;
+}
+
+.deck-item:hover {
+  transform: translateY(-3px);
+}
+
+.deck-item h4 {
+  font-size: 1.3rem;
+  margin-bottom: 0.3rem;
+  color: #4e5cf2;
+}
+
+.deck-item p {
+  color: #555;
+}
+
+/* Make entire deck item clickable */
+.deck-item a {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
