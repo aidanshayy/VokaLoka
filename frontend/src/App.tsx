@@ -68,6 +68,7 @@ const App: React.FC = () => {
           {authenticated && <li><Link to="/review">Review</Link></li>}
           {authenticated && <li><Link to="/stats">Stats</Link></li>}
           {authenticated && <li><Link to="/grammar">Grammar</Link></li>}
+          
           {/* Always show a login status indicator on the far right */}
           <li className="status">
             {authenticated ? 'Logged in' : 'Not logged in'}
@@ -117,6 +118,7 @@ const App: React.FC = () => {
               </RequireAuth>
             }
           />
+          
         </Routes>
       </main>
     </div>

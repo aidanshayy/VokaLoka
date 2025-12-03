@@ -1,0 +1,7 @@
+.settings-page { padding: 1rem; max-width: 800px; margin: 0 auto; }
+.settings-section { margin-bottom: 1.25rem; padding: 0.85rem; border-radius: 8px; background: #fff; box-shadow: 0 6px 18px rgba(2,6,23,0.03); }
+.settings-section h3 { margin-top: 0; }
+.settings-section label { display: flex; gap: 8px; align-items: center; margin: 8px 0; }
+.settings-section input[type="number"], .settings-section input[type="text"] { width: 6.5rem; padding: 6px 8px; border-radius: 6px; border: 1px solid #e6eef0; }
+.settings-actions { display:flex; gap: 10px; margin-top: 8px; }
+.settings-message { margin-top: 10px; color: #0b6623; font-weight: 600; }

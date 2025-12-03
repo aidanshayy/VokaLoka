@@ -39,7 +39,6 @@ const Review: React.FC = () => {
     try {
       await submitReview(card.id, quality);
       await loadCard();
-      document.querySelector('.review-card-wrap')?.scrollIntoView({ block: 'center', behavior: 'smooth' });
     } finally {
       setSubmitting(false);
     }
@@ -60,18 +59,10 @@ const Review: React.FC = () => {
       </div>
 
       <div className="review-actions">
-        <button className="btn again" disabled={!card || submitting || loading} onClick={() => grade(0)}>
-          Again
-        </button>
-        <button className="btn hard" disabled={!card || submitting || loading} onClick={() => grade(2)}>
-          Hard
-        </button>
-        <button className="btn good" disabled={!card || submitting || loading} onClick={() => grade(3)}>
-          Good
-        </button>
-        <button className="btn easy" disabled={!card || submitting || loading} onClick={() => grade(4)}>
-          Easy
-        </button>
+        <button className="btn again" disabled={!card || submitting || loading} onClick={() => grade(0)}>Again</button>
+        <button className="btn hard" disabled={!card || submitting || loading} onClick={() => grade(2)}>Hard</button>
+        <button className="btn good" disabled={!card || submitting || loading} onClick={() => grade(3)}>Good</button>
+        <button className="btn easy" disabled={!card || submitting || loading} onClick={() => grade(4)}>Easy</button>
       </div>
     </div>
   );

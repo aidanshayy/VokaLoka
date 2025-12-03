@@ -164,3 +164,9 @@
   border-radius: 4px;
   border: 1px solid #ccc;
 }
+
+.schedule-chart { margin-top: 1rem; }
+.chart-bars { display:flex; gap:6px; align-items:flex-end; height:120px; padding:8px; border:1px solid #eef2f5; background:#fff; border-radius:8px; }
+.chart-bar { width:18px; display:flex; flex-direction:column; align-items:center; }
+.bar-fill { width:100%; background: linear-gradient(180deg,#4f46e5,#7c3aed); border-radius:4px 4px 0 0; }
+.bar-label { font-size:10px; color:#64748b; margin-top:6px; }

@@ -33,6 +33,43 @@
   padding: 6px 0 14px;
 }
 
+.review-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.review-timer {
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.review-summary {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.badge {
+  min-width: 88px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  text-align: center;
+  color: #083344;
+  background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.3));
+  box-shadow: 0 6px 14px rgba(2,6,23,0.06);
+}
+.badge strong { font-size: 1.1rem; display:block; margin-top:6px; }
+.badge.new { background: linear-gradient(180deg,#fff8ef,#fff1df); color:#7a3b00; }
+.badge.mid { background: linear-gradient(180deg,#fffef6,#f3fff4); color:#1e6f3a; }
+.badge.easy { background: linear-gradient(180deg,#eef9ff,#e6f4ff); color:#0b4f92; }
+.badge.total { background: linear-gradient(180deg,#f8f8ff,#eef0ff); color:#2b1e7a; }
+
+.practice-controls { display:flex; gap:10px; align-items:center }
+.practice-count { color:#475569; font-weight:600; }
+
 .btn {
   min-width: 86px;
   padding: 10px 16px;

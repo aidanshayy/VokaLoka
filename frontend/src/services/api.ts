@@ -174,3 +174,19 @@ export async function fetchGrammarLesson(level: string, lessonId: string) {
   if (!res.ok) throw new Error('Failed to fetch grammar lesson');
   return await res.json();
 }
+
+export async function fetchSettings() {
+  const res = await fetch('/api/settings', { headers: buildHeaders() });
+  if (!res.ok) throw new Error('Failed to fetch settings');
+  return await res.json();
+}
+
+export async function updateSettings(payload: Record<string, any>) {
+  const res = await fetch('/api/settings', {
+    method: 'POST',
+    headers: buildHeaders({ 'Content-Type': 'application/json' }),
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) throw new Error('Failed to update settings');
+  return await res.json();
+}

@@ -17,6 +17,7 @@ type FlashcardProps = {
 const Flashcard: React.FC<FlashcardProps> = ({ front, back, className = '', onFlip }) => {
   const [flipped, setFlipped] = useState(false);
 
+
   useEffect(() => {
     onFlip?.(flipped);
   }, [flipped, onFlip]);
@@ -25,12 +26,7 @@ const Flashcard: React.FC<FlashcardProps> = ({ front, back, className = '', onFl
     setFlipped(v => !v);
   }
 
-  function onKeyDown(e: React.KeyboardEvent<HTMLDivElement>) {
-    if (e.key === ' ' || e.key === 'Enter') {
-      e.preventDefault();
-      toggle();
-    }
-  }
+  // Support global space/Enter to flip even when the flashcard isn't focused.
 
   return (
     <div className={`flashcard ${className}`}>
@@ -40,7 +36,6 @@ const Flashcard: React.FC<FlashcardProps> = ({ front, back, className = '', onFl
         aria-pressed={flipped}
         tabIndex={0}
         onClick={toggle}
-        onKeyDown={onKeyDown}
       >
         <div className="flashcard-face flashcard-front">
           <div className="flashcard-content">

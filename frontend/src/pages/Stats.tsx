@@ -11,6 +11,8 @@ interface StatsData {
   developing: number;
   good: number;
   cefrLevel: string;
+  dueInDays?: number[];
+  dueToday?: number;
 }
 
 interface WordEntry {
@@ -68,6 +70,8 @@ const Stats: React.FC = () => {
           developing: statsData.developing ?? 0,
           good: statsData.good ?? 0,
           cefrLevel: statsData.cefrLevel ?? '',
+          dueInDays: statsData.dueInDays ?? [],
+          dueToday: statsData.dueToday ?? 0,
         });
         setWords(wordData);
       } catch (err) {
@@ -77,6 +81,12 @@ const Stats: React.FC = () => {
       }
     };
     loadData();
+    // Listen for real-time updates triggered by reviews
+    function onStatsUpdated() {
+      loadData();
+    }
+    window.addEventListener('vokaloka:statsUpdated', onStatsUpdated as EventListener);
+    return () => window.removeEventListener('vokaloka:statsUpdated', onStatsUpdated as EventListener);
   }, []);
 
   /** Filter the words list based on currently selected deck and status. */
@@ -120,7 +130,30 @@ const Stats: React.FC = () => {
               <h3>CEFR Level</h3>
               <p>{stats.cefrLevel}</p>
             </div>
+            <div className="stat-item">
+              <h3>Due Today</h3>
+              <p>{stats.dueToday ?? 0}</p>
+            </div>
           </div>
+
+          {/* Small schedule chart for next 30 days */}
+          {stats.dueInDays && stats.dueInDays.length > 0 && (
+            <div className="schedule-chart">
+              <h3>Upcoming reviews (next {stats.dueInDays.length - 1} days)</h3>
+              <div className="chart-bars">
+                {stats.dueInDays.map((count, idx) => {
+                  const max = Math.max(...(stats.dueInDays || [1]));
+                  const height = max > 0 ? Math.round((count / max) * 100) : 2;
+                  return (
+                    <div key={idx} className="chart-bar" title={`Day ${idx}: ${count}`}>
+                      <div className="bar-fill" style={{ height: `${height}%` }} />
+                      <div className="bar-label">{idx}</div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
 
           {/* Filter controls */}
           <div className="filters">

@@ -85,6 +85,8 @@ from __future__ import annotations
 import json
 import hashlib
 import uuid
+import os
+import binascii
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Dict, Any, Optional, List, Tuple
@@ -106,20 +108,53 @@ app.add_middleware(
 )
 
 # In‑memory session store: token -> username
+# In‑memory session store: token -> username
 SESSIONS: Dict[str, str] = {}
 
-# Salt for password hashing; in production use a secure random salt per user
+# Legacy password salt used by older accounts (kept for compatibility)
 PASSWORD_SALT = "vokaloka_salt"
+
+# Improved password hashing using PBKDF2 with per-user salt.
+# Backwards compatible with the original salted SHA256 hashes stored
+# as plain hex. New registrations and password-upgrades will use the
+# PBKDF2 format: "pbkdf2$<iters>$<salt_hex>$<hash_hex>"
+DEFAULT_PBKDF2_ITERS = 100_000
+
+
+def _pbkdf2_hash(password: str, salt: bytes, iterations: int = DEFAULT_PBKDF2_ITERS) -> str:
+    dk = hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), salt, iterations)
+    return binascii.hexlify(dk).decode('ascii')
 
 
 def hash_password(password: str) -> str:
-    """Return a salted SHA256 hash of the password."""
-    return hashlib.sha256((PASSWORD_SALT + password).encode('utf-8')).hexdigest()
+    """Return a new password hash using PBKDF2 with a random salt.
+
+    Format: pbkdf2$<iterations>$<salt_hex>$<hash_hex>
+    """
+    salt = os.urandom(16)
+    h = _pbkdf2_hash(password, salt)
+    return f"pbkdf2${DEFAULT_PBKDF2_ITERS}${binascii.hexlify(salt).decode('ascii')}${h}"
 
 
-def verify_password(password: str, hashed: str) -> bool:
-    """Verify a password against the given hash."""
-    return hash_password(password) == hashed
+def verify_password(password: str, stored: str) -> bool:
+    """Verify a password against either the new PBKDF2 format or the
+    legacy salted SHA256 hex hash. If the legacy format is detected and
+    verification succeeds, callers may wish to upgrade the stored hash.
+    """
+    if not stored:
+        return False
+    if stored.startswith('pbkdf2$'):
+        try:
+            _, iters_s, salt_hex, hash_hex = stored.split('$')
+            iters = int(iters_s)
+            salt = binascii.unhexlify(salt_hex)
+            return _pbkdf2_hash(password, salt, iters) == hash_hex
+        except Exception:
+            return False
+    # Fallback: legacy salted SHA256 (PASSWORD_SALT-based)
+    # preserve original behavior for existing users
+    legacy = hashlib.sha256((PASSWORD_SALT + password).encode('utf-8')).hexdigest()
+    return legacy == stored
 
 
 def load_default_deck() -> Dict[str, Any]:
@@ -282,6 +317,7 @@ def load_data() -> Dict[str, Any]:
         data["default_deck"] = load_default_deck()
     if "grammar" not in data:
         data["grammar"] = load_default_grammar()
+    # settings were not part of the original schema; keep data minimal
     if "users" not in data:
         data["users"] = []
     if "cards" not in data:
@@ -295,11 +331,22 @@ def save_data(data: Dict[str, Any]) -> None:
         json.dump(data, f, ensure_ascii=False, indent=2)
 
 
-def current_user(token: str = Header(None)) -> Dict[str, Any]:
-    """Dependency to get the current authenticated user from the session token."""
-    if not token:
+def current_user(token: str = Header(None), authorization: str = Header(None)) -> Dict[str, Any]:
+    """Dependency to get the current authenticated user from the session token.
+
+    Accepts either a custom `token` header for backward compatibility or the
+    standard `Authorization: Bearer <token>` header.
+    """
+    t = token
+    if not t and authorization:
+        # Accept 'Bearer <token>' or raw token
+        if authorization.lower().startswith('bearer '):
+            t = authorization.split(' ', 1)[1].strip()
+        else:
+            t = authorization.strip()
+    if not t:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Missing authentication token")
-    username = SESSIONS.get(token)
+    username = SESSIONS.get(t)
     if not username:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid or expired token")
     data = load_data()
@@ -475,8 +522,19 @@ def login(body: Dict[str, str]) -> Any:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Username and password are required")
     data = load_data()
     user = next((u for u in data["users"] if u["username"] == username), None)
-    if not user or not verify_password(password, user["password_hash"]):
+    if not user or not verify_password(password, user.get("password_hash")):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
+
+    # If the user's password is stored in the legacy SHA256 format, upgrade it
+    stored = user.get("password_hash", "")
+    if stored and not stored.startswith('pbkdf2$'):
+        try:
+            user["password_hash"] = hash_password(password)
+            save_data(data)
+        except Exception:
+            # If upgrade fails, continue without preventing login
+            pass
+
     # Generate a new session token
     token = uuid.uuid4().hex
     SESSIONS[token] = username
@@ -513,26 +571,33 @@ def get_next_card(
         if deckId not in [d["id"] for d in user.get("decks", [])]:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Deck not found")
         cards = [c for c in cards if c.get("deck_id") == deckId]
-    # Sort by next_review date (None first)
-    def review_key(c: Dict[str, Any]):
+    # Separate due (scheduled) cards and new cards
+    now = datetime.utcnow()
+    due_cards: List[Dict[str, Any]] = []
+    new_cards: List[Dict[str, Any]] = []
+    for c in cards:
         nr = c.get("next_review")
         if not nr:
-            return datetime.min
-        try:
-            return datetime.fromisoformat(nr)
-        except Exception:
-            return datetime.min
-    cards_sorted = sorted(cards, key=review_key)
-    for card in cards_sorted:
-        nr = card.get("next_review")
-        if not nr:
-            return {"id": card["id"], "question": card["front"], "answer": card["back"]}
+            new_cards.append(c)
+            continue
         try:
             due = datetime.fromisoformat(nr)
         except Exception:
             due = datetime.min
-        if due <= datetime.utcnow():
-            return {"id": card["id"], "question": card["front"], "answer": card["back"]}
+        if due <= now:
+            due_cards.append(c)
+
+    # Always prefer due cards
+    if due_cards:
+        # return earliest due
+        due_cards.sort(key=lambda c: datetime.fromisoformat(c.get("next_review") or now.isoformat()))
+        c = due_cards[0]
+        return {"id": c["id"], "question": c["front"], "answer": c["back"]}
+
+    # If there are new (never-reviewed) cards, return the first one.
+    if new_cards:
+        c = new_cards[0]
+        return {"id": c["id"], "question": c["front"], "answer": c["back"]}
     return None
 
 
@@ -554,8 +619,11 @@ def submit_review(body: Dict[str, Any], user: Dict[str, Any] = Depends(current_u
     card = next((c for c in data["cards"] if c.get("id") == card_id and c.get("user") == user["username"]), None)
     if not card:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Card not found")
+    # detect whether this was a new card (no next_review set yet)
+    was_new = not bool(card.get("next_review"))
     update_card_fsrs(card, int(quality))
     update_stats(user.setdefault("stats", {"streak": 0, "lastReviewDate": None}), int(quality))
+
     save_data(data)
     return {"message": "Review recorded"}
 
@@ -598,6 +666,26 @@ def get_statistics(user: Dict[str, Any] = Depends(current_user)) -> Any:
         level = "B2"
     else:
         level = "C1"
+    # build a small schedule projection for the next 30 days (0 = today)
+    horizon = 30
+    due_in_days = [0] * (horizon + 1)
+    today_date = datetime.utcnow().date()
+    for c in cards:
+        nr = c.get("next_review")
+        if not nr:
+            bucket = 0
+        else:
+            try:
+                d = datetime.fromisoformat(nr).date()
+                bucket = (d - today_date).days
+            except Exception:
+                bucket = 0
+        if bucket < 0:
+            bucket = 0
+        if bucket > horizon:
+            bucket = horizon
+        due_in_days[bucket] += 1
+
     stats = user.get("stats", {"streak": 0, "lastReviewDate": None})
     return {
         "streak": stats.get("streak", 0),
@@ -608,6 +696,8 @@ def get_statistics(user: Dict[str, Any] = Depends(current_user)) -> Any:
         "totalWords": total,
         "knownWords": known,
         "cefrLevel": level,
+        "dueInDays": due_in_days,
+        "dueToday": due_in_days[0],
     }
 
 
@@ -675,3 +765,44 @@ def get_grammar_lesson(level: str, lesson_id: str) -> Any:
     if not lesson:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Lesson not found")
     return lesson
+
+
+@app.get('/api/settings')
+def get_settings(user: Dict[str, Any] = Depends(current_user)) -> Any:
+    """Return global settings and the user's personal settings."""
+    data = load_data()
+    settings = data.get('settings', {})
+    # Attach per-user settings as well
+    user_settings = user.get('settings', {})
+    return {'global': settings, 'user': user_settings}
+
+
+@app.post('/api/settings')
+def post_settings(body: Dict[str, Any], user: Dict[str, Any] = Depends(current_user)) -> Any:
+    """Update settings. Accepts either global settings (requires caution)
+    or per-user settings. This endpoint accepts keys:
+    - global_new_per_day
+    - model
+    - force_model
+    - new_per_day (per-user)
+    """
+    data = load_data()
+    updated = {}
+    # Global updates
+    if 'global_new_per_day' in body:
+        data.setdefault('settings', {})['global_new_per_day'] = int(body['global_new_per_day'])
+        updated['global_new_per_day'] = data['settings']['global_new_per_day']
+    if 'model' in body:
+        data.setdefault('settings', {})['model'] = str(body['model'])
+        updated['model'] = data['settings']['model']
+    if 'force_model' in body:
+        data.setdefault('settings', {})['force_model'] = bool(body['force_model'])
+        updated['force_model'] = data['settings']['force_model']
+
+    # Per-user settings
+    if 'new_per_day' in body:
+        user.setdefault('settings', {})['new_per_day'] = int(body['new_per_day'])
+        updated['new_per_day'] = user['settings']['new_per_day']
+
+    save_data(data)
+    return {'message': 'Settings updated', 'updated': updated}
