@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+
+/* Define CSS variables for the custom fonts loaded in the layout. These
+   variables allow Tailwind classes (e.g. font-sans or font-mono) to map
+   to the correct font family. */
+:root {
+  --font-geist-sans: 'Geist', sans-serif;
+  --font-geist-mono: 'Geist Mono', monospace;
+}
+
+/* Apply the custom fonts via utility classes. You can reference these
+   variables with the className attribute on elements. */
+.font-geist {
+  font-family: var(--font-geist-sans);
+}
+.font-geist-mono {
+  font-family: var(--font-geist-mono);
+}
